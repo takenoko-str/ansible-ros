@@ -9,7 +9,7 @@
       "region": "ap-northeast-1",
       "instance_type": "m5.large",
       "ssh_username": "ubuntu",
-      "ami_name": "ros1-{{ timestamp }}",
+      "ami_name": "ros1-{{ user `ros_version` }}-{{ user `ami_version` }}-{{ timestamp }}",
       "source_ami_filter": {
         "filters": {
           "virtualization-type": "hvm",
