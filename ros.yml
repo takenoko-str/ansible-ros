@@ -41,5 +41,4 @@
         - python-wstool
         - build-essential
         - python-catkin-tools
-        - ros-kinetic-rosbridge-server
 
