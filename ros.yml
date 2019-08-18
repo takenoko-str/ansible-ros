@@ -1,0 +1,45 @@
+---
+- name: Apply base.yml on ubuntu
+  become: yes
+  hosts: all
+  gather_facts: True
+
+  tasks:
+    - debug:
+        msg: "{{ ansible_distribution_release }}"
+
+    - name: Add apt_key ID
+      apt_key:
+        keyserver: hkp://ha.pool.sks-keyservers.net:80
+        id: C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+        state: present
+
+    - name: Add an entry for your Ubuntu operationg system
+      apt_repository:
+        repo: "deb http://packages.ros.org/ros/ubuntu {{ ansible_distribution_release }} main"
+        state: present
+        filename: ros-latest
+        update_cache: yes
+
+    - shell: apt update -y
+
+    - name: Install ROS1 packages
+      apt:
+        name:
+          - ros-{{ ros_distro }}-desktop-full
+          - ros-{{ ros_distro }}-rosbridge-server
+        state: present
+        update_cache: yes
+
+    - apt:
+        pkg: "{{ item }}"
+        state: present
+        update_cache: yes
+      with_items:
+        - python-rosinstall
+        - python-rosinstall-generator
+        - python-wstool
+        - build-essential
+        - python-catkin-tools
+        - ros-kinetic-rosbridge-server
+

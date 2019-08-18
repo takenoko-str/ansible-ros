@@ -1,0 +1,40 @@
+{
+  "variables": {
+      "ros_version": "{{ env `ROS_DISTRO` }}",
+      "ami_version": "{{ env `AMI_DISTRO` }}"
+  },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "region": "ap-northeast-1",
+      "instance_type": "m5.large",
+      "ssh_username": "ubuntu",
+      "ami_name": "ros1-{{ timestamp }}",
+      "source_ami_filter": {
+        "filters": {
+          "virtualization-type": "hvm",
+          "name": "ubuntu/images/*ubuntu-{{ user `ami_version` }}-amd64-server-*",
+          "root-device-type": "ebs"
+        },
+        "owners": ["099720109477"],
+        "most_recent": true
+      }
+    }
+  ],
+    "provisioners": [
+      {
+          "type": "ansible",
+          "playbook_file": "ros.yml",
+          "extra_arguments" : [
+              "--extra-vars", "ros_distro={{ user `ros_version` }}"
+          ]
+      },
+      {
+          "type": "shell",
+          "script": "setup.sh",
+          "environment_vars": [
+              "ros_distro={{ user `ros_version` }}"
+          ]
+      }
+    ]
+}

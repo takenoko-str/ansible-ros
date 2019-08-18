@@ -1,0 +1,25 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.7
+
+  pre_build:
+    commands:
+      - echo 'Install Packer 1.2.1'
+      - curl -qL -o packer.zip https://releases.hashicorp.com/packer/1.2.1/packer_1.2.1_linux_amd64.zip && unzip packer.zip
+      - echo 'Validate packer json'
+      - ./packer validate packer.json
+  build:
+    commands:
+      - echo 'Build AMI'
+      - ./packer build -machine-readable packer.json | tee output.log
+  post_build:
+    commands:
+      - echo "Build finished `date`"
+
+  artifacts:
+    type: zip
+    files:
+      - output.log
