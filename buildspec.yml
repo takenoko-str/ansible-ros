@@ -14,7 +14,7 @@ phases:
   build:
     commands:
       - echo 'Build AMI'
-      - ./packer build -machine-readable packer.json | tee output.log
+      - bash ./start.sh 16 output.log
   post_build:
     commands:
       - echo "Build finished `date`"
