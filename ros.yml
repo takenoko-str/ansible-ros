@@ -1,5 +1,5 @@
 ---
-- name: Apply base.yml on ubuntu
+- name: Apply ros.yml on ubuntu
   become: yes
   hosts: all
   gather_facts: True
