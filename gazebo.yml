@@ -1,0 +1,30 @@
+---
+- name: Apply gazebo.yml on ubuntu
+  become: yes
+  hosts: all
+  gather_facts: True
+
+  tasks:
+    - debug:
+        msg: "{{ ansible_distribution_release }}"
+
+    - name: Add apt_key ID
+      apt_key:
+        url: http://packages.osrfoundation.org/gazebo.key
+        state: present
+
+    - name: Add an entry for your Ubuntu operationg system
+      apt_repository:
+        repo: "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable {{ ansible_distribution_release }} main"
+        state: present
+        filename: gazebo-stable
+        update_cache: yes
+
+    - name: Install ROS1 packages
+      apt:
+        name:
+          - gazebo7
+          - libgazebo7-*
+        state: present
+        update_cache: yes
+
