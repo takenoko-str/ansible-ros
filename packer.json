@@ -48,6 +48,13 @@
           "environment_vars": [
               "ros_distro={{ user `ros_version` }}"
           ]
+      },
+      {
+          "type": "ansible",
+          "playbook_file": "gazebo.yml",
+          "extra_arguments" : [
+              "--extra-vars", "ros_distro={{ user `ros_version` }}"
+          ]
       }
     ]
 }
