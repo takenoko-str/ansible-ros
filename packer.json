@@ -10,6 +10,13 @@
       "instance_type": "m5.large",
       "ssh_username": "ubuntu",
       "ami_name": "ros1-{{ user `ros_version` }}-{{ user `ami_version` }}-{{ timestamp }}",
+      "launch_block_device_mappings": [
+        {
+          "device_name": "/dev/sda1",
+          "volume_size": 32,
+          "delete_on_termination": true
+        }
+      ],
       "source_ami_filter": {
         "filters": {
           "virtualization-type": "hvm",
