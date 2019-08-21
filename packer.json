@@ -30,6 +30,12 @@
   ],
     "provisioners": [
       {
+          "type":  "shell",
+          "inline": [
+              "sudo locale-gen ja_JP.UTF-8"
+          ]
+      },
+      {
           "type": "ansible",
           "playbook_file": "ros.yml",
           "extra_arguments" : [
